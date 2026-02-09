@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Discord Login</title>
+</head>
+<body>
+  <h1>Discordでログイン</h1>
+
+  <a id="login">
+    <button>Discordでログイン</button>
+  </a>
+
+  <script>
+    const clientId = "1470485317092900997";
+    const redirectUri = "http://localhost:5500/callback.html";
+    const scope = "identify email";
+
+    const authUrl =
+      `https://discord.com/oauth2/authorize` +
+      `?client_id=${clientId}` +
+      `&redirect_uri=${encodeURIComponent(redirectUri)}` +
+      `&response_type=code` +
+      `&scope=${scope}`;
+
+    document.getElementById("login").href = authUrl;
+  </script>
+</body>
+</html>
