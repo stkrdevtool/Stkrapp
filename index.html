@@ -5,25 +5,38 @@
   <title>Discord Login</title>
 </head>
 <body>
-  <h1>Discordでログイン</h1>
+  <h2>Discordでログイン</h2>
 
-  <a id="login">
-    <button>Discordでログイン</button>
-  </a>
+  <button id="loginBtn">ログイン</button>
+  <p id="result"></p>
 
   <script>
     const clientId = "1470485317092900997";
-    const redirectUri = "https://stkrdevtool.github.io/Stkrapp/";
-    const scope = "identify email";
+    const redirectUri = "https://stkrdevtool.github.io/Stkrapp/index.html";
 
-    const authUrl =
-      `https://discord.com/oauth2/authorize` +
-      `?client_id=${clientId}` +
-      `&redirect_uri=${encodeURIComponent(redirectUri)}` +
-      `&response_type=code` +
-      `&scope=${scope}`;
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
 
-    document.getElementById("login").href = authUrl;
+    // ✅ code がある時はリダイレクトしない
+    if (code) {
+      document.getElementById("result").innerText =
+        "ログイン成功！\ncode = " + code;
+
+      // ボタンを無効化
+      document.getElementById("loginBtn").disabled = true;
+    } else {
+      // code がない時だけログインさせる
+      document.getElementById("loginBtn").onclick = () => {
+        const authUrl =
+          "https://discord.com/oauth2/authorize" +
+          "?client_id=" + clientId +
+          "&response_type=code" +
+          "&redirect_uri=" + encodeURIComponent(redirectUri) +
+          "&scope=identify email";
+
+        location.href = authUrl;
+      };
+    }
   </script>
 </body>
 </html>
